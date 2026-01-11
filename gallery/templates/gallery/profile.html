@@ -1,0 +1,75 @@
+{% extends "main.html" %}
+{% load static %}
+{% block content %}
+
+<div class="max-w-2xl mx-4 sm:mx-auto mt-16 shadow-xl rounded-lg text-gray-900 p-6">
+
+  <div class="text-center mb-4">
+    <h2 class="text-2xl font-bold">Account</h2>
+  </div>
+
+  <!-- Profile Image -->
+  <div class="mx-auto w-32 h-32 relative border-4 border-white rounded-full overflow-hidden">
+    {% if request.user.profile.avatar %}
+      <img class="object-cover object-center h-32 w-32" src="{{ request.user.profile.avatar.url }}" alt="Profile">
+    {% else %}
+      <img class="object-cover object-center h-32 w-32" src="{% static 'images/profile.png' %}" alt="Default profile">
+    {% endif %}
+  </div>
+
+  <!-- Username -->
+<div class="text-center mt-2">
+  <h2 class="font-semibold">{{ request.user.username }}</h2>
+  <a href="{% url 'edit_profile' %}" class="text-blue-600 hover:underline text-sm">Edit Profile</a>
+</div>
+
+<!-- Bio -->
+{% if request.user.profile.bio %}
+  <div class="text-center mt-2 px-4 text-sm text-gray-700">
+    <p>{{ request.user.profile.bio }}</p>
+  </div>
+{% endif %}
+
+  <!-- Stats -->
+  <ul class="py-4 mt-2 text-gray-700 flex items-center justify-around">
+    <li class="flex flex-col items-center">
+      <div>My Items: {{ art_count }}</div>
+    </li>
+  </ul>
+
+  <!-- Artworks Section -->
+  <div class="p-4">
+    <h3 class="text-lg font-semibold mb-2">My Artworks</h3>
+    {% if user_arts %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {% for art in user_arts %}
+          <div class="bg-white rounded-lg shadow p-2">
+            <a href="{% url 'art' art.id %}">
+              <img src="{{ art.image.url }}" alt="{{ art.title }}" class="rounded-lg shadow-sm transition duration-200 w-full h-48 object-cover">
+              <p class="text-center text-sm mt-1 font-medium text-gray-800">{{ art.title }}</p>
+            </a>
+
+            {% if art.uploaded_by.id == request.user.id %}
+              <div class="flex justify-center gap-2 mt-2">
+                <a href="{% url 'edit' art.id %}" class="text-xs bg-blue-500 text-white px-3 py-1 rounded hover:bg-blue-600">Edit</a>
+                <a href="{% url 'delete' art.id %}" class="text-xs bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600">Delete</a>
+              </div>
+            {% endif %}
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="text-gray-500 text-sm">You haven't uploaded any art yet.</p>
+    {% endif %}
+  </div>
+
+  <!-- Logout Button -->
+  <form method="POST" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <div class="p-4 border-t mx-8 mt-2">
+      <button type="submit" class="w-full block rounded-full bg-red-600 hover:bg-red-700 font-semibold text-white px-6 py-2">Log Out</button>
+    </div>
+  </form>
+</div>
+
+{% endblock %}

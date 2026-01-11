@@ -1,0 +1,38 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="max-w-4xl mx-auto p-6 bg-white shadow-2xl rounded-2xl mt-10">
+  <h1 class="text-4xl font-bold text-center text-indigo-600 mb-6">🎨 Welcome to Our Art Gallery</h1>
+
+  <p class="text-lg text-gray-700 mb-4">
+    Our gallery is a vibrant community of creators and dreamers. Here, you’ll discover stunning artworks submitted by talented artists from around the world.
+  </p>
+
+  <p class="text-lg text-gray-700 mb-4">
+    Whether you're an artist looking to share your creativity, or an enthusiast searching for inspiration, this is the perfect place for you. 🌍
+  </p>
+
+  <div class="grid md:grid-cols-3 gap-6 my-6">
+    <div class="bg-indigo-50 p-4 rounded-xl shadow">
+      <h3 class="text-xl font-semibold text-indigo-700 mb-2">🌟 Discover Art</h3>
+      <p class="text-gray-600">Browse thousands of beautiful and unique artworks, updated daily by our creative community.</p>
+    </div>
+    <div class="bg-indigo-50 p-4 rounded-xl shadow">
+      <h3 class="text-xl font-semibold text-indigo-700 mb-2">❤️ Like and Save</h3>
+      <p class="text-gray-600">Support your favorite pieces by liking them — build your personal collection of favorites.</p>
+    </div>
+    <div class="bg-indigo-50 p-4 rounded-xl shadow">
+      <h3 class="text-xl font-semibold text-indigo-700 mb-2">🖌️ Share Your Work</h3>
+      <p class="text-gray-600">Upload your own creations and get noticed by art lovers around the world.</p>
+    </div>
+  </div>
+
+  <div class="text-center mt-8">
+    <a href="{% url 'gallery' %}" class="inline-block bg-indigo-600 text-white px-6 py-3 rounded-full text-lg shadow hover:bg-indigo-700 transition duration-300">
+      Explore the Gallery
+    </a>
+  </div>
+</div>
+
+{% endblock content %}

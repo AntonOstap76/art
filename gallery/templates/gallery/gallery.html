@@ -1,0 +1,63 @@
+{% extends 'main.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-6">
+
+    <h2 class="text-center text-3xl font-bold mb-6">Art Gallery</h2>
+
+    <!-- Search Bar -->
+    <form method="GET" class="flex justify-center mb-8">
+        <input type="text" name="q"
+               placeholder="Search by title or author..."
+               value="{{ request.GET.q }}"
+               class="w-full max-w-xl px-5 py-3 border border-gray-400 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-400 text-center text-lg" />
+    </form>
+
+    {%if arts%}
+    <!-- Art Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8">
+        {% for art in arts %}
+            <div class="bg-[#f8f1e4] border-[10px] border-[#a47148] rounded-xl shadow-lg overflow-hidden flex flex-col">
+                <!-- Art Image with Wood-Like Frame -->
+                <a href="{% url 'art' art.id %}" class="block w-full">
+                    <div class="bg-[#c6a77b] p-1">
+                        <img src="{{ art.image.url }}"
+                             alt="{{ art.title }}"
+                             class="w-full h-64 object-cover rounded-t-lg" />
+                    </div>
+                </a>
+
+                <!-- Title, Author, Like -->
+                <div class="p-4 bg-white flex-1 flex flex-col items-center justify-between">
+                    <h5 class="text-lg font-semibold mb-1 text-gray-800 text-center">
+                        <a href="{% url 'art' art.id %}" class="hover:underline">{{ art.title }}</a>
+                    </h5>
+                    <p class="text-sm text-gray-500 mb-3 text-center">
+                        by <a href="{% url 'user_profile' art.uploaded_by.username %}" class="text-blue-600 hover:underline">{{ art.uploaded_by.username }}</a>
+                    </p>
+                 
+    <!-- {% if request.user != art.uploaded_by %}
+        <form method="POST" action="{% url 'toggle_like' art.id %}">
+            {% csrf_token %}
+            <button type="submit" class="absolute top-6 right-6 w-8 h-8 bg-transparent">
+                {% if request.user in art.liked.all %}
+                    <img src="{% static 'images/heart_filled.svg' %}" alt="Heart Icon Filled" class="w-full h-full">
+                {% else %}
+                    <img src="{% static 'images/heart_nofill.svg' %}" alt="Heart Icon No Fill" class="w-full h-full">
+                {% endif %}
+            </button>
+        </form>
+    {% endif %} -->
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {%else%}
+    <div>
+        <h2>No arts</h2>
+    </div>
+    {% endif %}
+
+</div>
+{% endblock content %}
